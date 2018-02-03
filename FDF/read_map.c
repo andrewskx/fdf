@@ -6,7 +6,7 @@
 /*   By: anboscan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 15:41:20 by anboscan          #+#    #+#             */
-/*   Updated: 2018/02/03 15:13:03 by anboscan         ###   ########.fr       */
+/*   Updated: 2018/02/03 16:31:20 by anboscan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_list	*fdf_validation_first_step(char *file, t_map *map)
 	char	*line;
 	int		columns;
 
-	map->rows = -1;
+	map->rows = 0;
 	line = 0;
 	start = 0;
 	if ((fd = open(file, O_RDONLY)) < 0)
@@ -76,23 +76,71 @@ t_list	*fdf_validation_first_step(char *file, t_map *map)
 	return (start);
 }
 
-/*void	fdf_fill_map(char **str, t_map *map)
+void	fdf_fill_map(t_list *start, t_map *map)
 {
+	char	**str;
+	int 	columns;
+	int		rows;
+	t_list *ptr;
 
-	ft_free_double_char(str);
+	ptr = start;
+	rows = map->rows - 1;
+	while (ptr)
+	{
+		columns = 0;
+		str = ft_strsplit((char*)ptr->content, ' ');
+		while (str[columns])
+		{
+			map->map[rows][columns].x = columns;
+			map->map[rows][columns].y = rows;
+			map->map[rows][columns].z = ft_atoi(str[columns]);
+			columns++;
+		}
+		rows--;
+		ft_free_double_char(str);
+		ptr = ptr->next;
+	}
 }
 
-void	fdf_validation_second_step(t_list *start, t_map *map)
+void	fdf_validation_final_step(t_list *start)
 {
-	
+	t_list *ptr;
+	size_t	columns;
 
+	if (start)
+	{
+		ptr = start;
+		columns = ptr->content_size;
+		while (ptr)
+		{
+			if (columns != ptr->content_size)
+			{
+				ft_lstdel(&start, ft_del_lst);
+				fdf_error("Invalid map");
+			}
+			ptr = ptr->next;
+		}
+	}
+}
 
-*/
+void	print_coords(t_map *map)
+{
+	int i;
+	int j;
 
-
-
-
-
+	i = 0;
+	while (i < map->rows)
+	{
+		j = 0;
+		while (j < map->columns)
+		{
+			printf("%i ",map->map[i][j].z);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+}
 
 
 
@@ -101,6 +149,11 @@ void	fdf_read_to_map(char *file, t_map *map)
 	t_list *start;
 
 	start = fdf_validation_first_step(file, map);
+	fdf_validation_final_step(start);
+	map->columns = (int)start->content_size;
+	fdf_map_allocate(map);
+	fdf_fill_map(start, map);
+	print_coords(map);
 //	print_list(start);
 	ft_lstdel(&start, ft_del_lst);
 }

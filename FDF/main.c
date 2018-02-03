@@ -6,7 +6,7 @@
 /*   By: anboscan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 15:30:30 by anboscan          #+#    #+#             */
-/*   Updated: 2018/02/03 13:05:04 by anboscan         ###   ########.fr       */
+/*   Updated: 2018/02/03 16:33:32 by anboscan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ int	main(int arg, char **argv)
 		}
 		printf("\n");
 	}*/
+	fdf_map_deallocate(&map);
 	return (0);
 }

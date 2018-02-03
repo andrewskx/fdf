@@ -6,7 +6,7 @@
 /*   By: anboscan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 16:47:51 by anboscan          #+#    #+#             */
-/*   Updated: 2018/02/02 17:12:14 by anboscan         ###   ########.fr       */
+/*   Updated: 2018/02/03 15:51:00 by anboscan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	fdf_map_allocate(t_map *map)
 	int i;
 
 	i = 0;
-	map->map = (t_coord**)malloc(sizeof(t_coord*) * (map->rows + 1));
-	while (i < (map->rows + 1))
+	map->map = (t_coord**)malloc(sizeof(t_coord*) * map->rows);
+	while (i < map->rows)
 	{
 		map->map[i] = (t_coord*)malloc(sizeof(t_coord) * map->columns);
 		i++;
