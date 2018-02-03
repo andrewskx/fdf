@@ -6,7 +6,7 @@
 /*   By: anboscan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 15:30:30 by anboscan          #+#    #+#             */
-/*   Updated: 2018/02/02 17:41:02 by anboscan         ###   ########.fr       */
+/*   Updated: 2018/02/03 13:05:04 by anboscan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ int	main(int arg, char **argv)
 	if (arg != 2)
 		fdf_error("No arguments provided");
 	fdf_read_to_map(argv[1], &map);
-	/*for (int i = 0; i < 10; i++)
+/*	for (int i = 0; i < (map.rows); i++)
 	{
 		for (int j = 0; j < (map.columns); j++)
 		{
-			printf("(%i, %i, %i) ", i, map.map[i][j].y, map.map[i][j].z);
+			printf("%i ", map.map[i][j].z);
 		}
 		printf("\n");
 	}*/

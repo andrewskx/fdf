@@ -6,17 +6,57 @@
 /*   By: anboscan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 15:41:20 by anboscan          #+#    #+#             */
-/*   Updated: 2018/02/02 17:48:11 by anboscan         ###   ########.fr       */
+/*   Updated: 2018/02/03 15:13:03 by anboscan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+
+void	print_list(t_list *start)
+{
+	t_list *ptr;
+
+	ptr = start;
+	if (ptr)
+		while (ptr)
+		{
+			write(1, "|", 1);
+			ft_putstr((char*)(ptr->content));
+			write(1, "|", 1);
+			ptr = ptr->next;
+			write(1, "\n", 1);
+		}
+}
+
+void		fdf_validate_line(t_list *start, char *str)
+{
+	int i;
+	int columns;
+
+	i = 0;
+	columns = 0;
+	while (str[i])
+	{
+		if (!(ft_isdigit(str[i]) || str[i] == ' '))
+			if (!((str[i] == '-' && ft_isdigit(str[i + 1]))))
+			{
+				ft_lstdel(&start, ft_del_lst);
+				fdf_error("Invalid map");
+			}
+		if (str[i] == ' ' && (ft_isdigit(str[i + 1]) || str[i + 1] == '-'))
+			columns++;
+		i++;
+	}
+	start->content_size = (size_t)columns + 1;
+}
 
 t_list	*fdf_validation_first_step(char *file, t_map *map)
 {
 	int		fd;
 	t_list	*start;
 	char	*line;
+	int		columns;
 
 	map->rows = -1;
 	line = 0;
@@ -25,89 +65,35 @@ t_list	*fdf_validation_first_step(char *file, t_map *map)
 		fdf_error("Failed to open the file");
 	while (get_next_line(fd, &line))
 	{
-		ft_lstadd(&start, ft_lstnew((void*)line, ft_strlen(line)));
-		map->rows++;
+		ft_lstadd(&start, ft_lstnew((void*)line, ft_strlen(line) + 1));
+		fdf_validate_line(start, (char*)(start->content));
+		(map->rows)++;
 		free(line);
+		line = 0;
+//		ft_putnbr((int)start->content_size);
+//		write(1, "\n", 1);
 	}
 	return (start);
 }
 
-int		fdf_validation_and_count_columns(char **str)
+/*void	fdf_fill_map(char **str, t_map *map)
 {
-	int i;
-	int j;
 
-	i = 0;
-	while (str[i])
-	{
-		j = 0;
-		while (str[i][j])
-		{
-			if (!ft_isdigit(str[i][j]))
-			{
-				if (str[i][j] == '-' && ft_isdigit(str[i][j + 1]))
-					;
-				else
-					return (-1);
-			}		
-			j++;
-		}
-		i++;
-	}
-	return (i);
-}
-
-void	fdf_fill_map(char **str, t_map *map)
-{
-	int i;
-
-	i = 0;
-	while (i < map->columns)
-	{
-		map->map[map->rows][map->columns].z = ft_atoi((const char *)(str[i]));
-		map->map[map->rows][map->columns].y = map->rows;
-		map->map[map->rows][map->columns].x = i;
-		printf("(%i, %i, %i) ", map->map[map->rows][map->columns].x, map->map[map->rows][map->columns].y,
-								map->map[map->rows][map->columns].z);
-		i++;
-	}
-	write(1, "\n", 1);
-	map->rows--;
+	ft_free_double_char(str);
 }
 
 void	fdf_validation_second_step(t_list *start, t_map *map)
 {
-	t_list	*aux;
-	char	**str;
-	int		columns;
+	
 
-	aux = start;
-	str = ft_strsplit((char*)aux->content, ' ');
-	map->columns = fdf_validation_and_count_columns(str);
-	if (map->columns >= 0)
-	{
-		columns = map->columns;
-		fdf_map_allocate(map);
-		ft_putstr("here\ncolumns = ");
-		ft_putnbr(columns);
-		fdf_fill_map(str, map);
-		ft_putstr("after fill\n");
-		ft_free_double_char(str);
-		aux = aux->next;
-		while (aux)
-		{
-			str = ft_strsplit((const char*)aux->content, ' ');
-			(map->columns) = fdf_validation_and_count_columns(str);
-			if (map->columns != columns)
-				break;
-			fdf_fill_map(str, map);
-			ft_free_double_char(str);
-			aux = aux->next;
-		}
-	}
-	else
-		fdf_error("Second step validation");
-}
+
+*/
+
+
+
+
+
+
 
 
 void	fdf_read_to_map(char *file, t_map *map)
@@ -115,5 +101,6 @@ void	fdf_read_to_map(char *file, t_map *map)
 	t_list *start;
 
 	start = fdf_validation_first_step(file, map);
-	fdf_validation_second_step(start, map);
+//	print_list(start);
+	ft_lstdel(&start, ft_del_lst);
 }
