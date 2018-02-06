@@ -14,12 +14,14 @@
 
 void	fdf_map_deallocate(t_map *map)
 {
+	map->rows--;
 	while (map->rows)
 	{
 		free(map->map[map->rows]);
 		map->rows--;
 	}
 	free(map->map);
+	ft_putstr("Map being freed");
 }
 
 void	fdf_map_allocate(t_map *map)

@@ -13,7 +13,7 @@
 #include "fdf.h"
 
 
-void	print_list(t_list *start)
+/*void	print_list(t_list *start)
 {
 	t_list *ptr;
 
@@ -27,7 +27,7 @@ void	print_list(t_list *start)
 			ptr = ptr->next;
 			write(1, "\n", 1);
 		}
-}
+}*/
 
 void		fdf_validate_line(t_list *start, char *str)
 {
@@ -69,22 +69,16 @@ t_list	*fdf_validation_first_step(char *file, t_map *map)
 		fdf_validate_line(start, (char*)(start->content));
 		(map->rows)++;
 		free(line);
-		line = 0;
-//		ft_putnbr((int)start->content_size);
-//		write(1, "\n", 1);
 	}
 	return (start);
 }
 
-void	fdf_fill_map(t_list *start, t_map *map)
+void	fdf_fill_map(t_list *start, t_map *map, int rows, int columns)
 {
 	char	**str;
-	int 	columns;
-	int		rows;
 	t_list *ptr;
 
 	ptr = start;
-	rows = map->rows - 1;
 	while (ptr)
 	{
 		columns = 0;
@@ -93,7 +87,7 @@ void	fdf_fill_map(t_list *start, t_map *map)
 		{
 			map->map[rows][columns].x = columns;
 			map->map[rows][columns].y = rows;
-			map->map[rows][columns].z = ft_atoi(str[columns]);
+			map->map[rows][columns].z = -(ft_atoi(str[columns]));
 			columns++;
 		}
 		rows--;
@@ -102,7 +96,7 @@ void	fdf_fill_map(t_list *start, t_map *map)
 	}
 }
 
-void	fdf_validation_final_step(t_list *start)
+void	fdf_validation_final_step(t_list *start, t_map *map)
 {
 	t_list *ptr;
 	size_t	columns;
@@ -121,6 +115,7 @@ void	fdf_validation_final_step(t_list *start)
 			ptr = ptr->next;
 		}
 	}
+	map->columns = (int)start->content_size;
 }
 
 void	print_coords(t_map *map)
@@ -143,17 +138,17 @@ void	print_coords(t_map *map)
 }
 
 
-
 void	fdf_read_to_map(char *file, t_map *map)
 {
 	t_list *start;
 
 	start = fdf_validation_first_step(file, map);
-	fdf_validation_final_step(start);
-	map->columns = (int)start->content_size;
+	fdf_validation_final_step(start, map);
 	fdf_map_allocate(map);
-	fdf_fill_map(start, map);
-	print_coords(map);
+	fdf_fill_map(start, map, map->rows - 1, 0);
+//	print_coords(map);
 //	print_list(start);
 	ft_lstdel(&start, ft_del_lst);
+	fdf_move_to_origin(map);
+//	print_coords(map);
 }
