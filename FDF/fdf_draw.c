@@ -23,11 +23,7 @@ void	fdf_draw(t_map *map)
 			if ((map->map[i][j].x + map->offset_x) >= 0 && (map->map[i][j].x + map->offset_x < width) && (map->map[i][j].y + map->offset_y >= 0) && (map->map[i][j].y + map->offset_y < height))
 			{
 				vector.x0 = map->map[i][j].x * map->step;
-		/*		vector.x0 = j;
-				vector.y0 = i;
-				vector.x1 = j + 1;
-				vector.y1 = i;
-			*/	vector.y0 = map->map[i][j].y * map->step;
+				vector.y0 = map->map[i][j].y * map->step;
 				vector.z0 = map->map[i][j].z * map->step;
 				vector.x1 = map->map[i][j + 1].x * map->step;
 				vector.y1 = map->map[i][j + 1].y * map->step;
@@ -36,11 +32,7 @@ void	fdf_draw(t_map *map)
 				fdf_put_line(&vector, 0xFFFFFF, map);
 				vector.x0 = map->map[i][j].x * map->step;
 				vector.y0 = map->map[i][j].y * map->step;
-		/*		vector.x0 = j;
-				vector.x1 = j;
-				vector.y0 = i;
-				vector.y1 = i + 1;
-		*/		vector.z0 = map->map[i][j].z * map->step;
+				vector.z0 = map->map[i][j].z * map->step;
 				vector.x1 = map->map[i + 1][j].x * map->step;
 				vector.y1 = map->map[i + 1][j].y * map->step;
 				vector.z1 = map->map[i + 1][j].z * map->step;

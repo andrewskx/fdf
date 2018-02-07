@@ -1,8 +1,5 @@
 #include "fdf.h"
 
-
-
-
 void	fdf_move_z_to_origin(t_map *map, int offset)
 {
 	int i;
@@ -59,5 +56,6 @@ void	fdf_move_to_origin(t_map *map)
 	map->angle_y =  0 * rad;
 	map->angle_z = -45 * rad;
 	map->axe_key = 0;
+	map->reverse = 0;
 	fdf_move_z_to_origin(map, (z_max + z_min) / 2);
 }

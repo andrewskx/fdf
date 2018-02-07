@@ -7,15 +7,39 @@ int	fdf_key(int key, t_map *map)
 		fdf_map_deallocate(map);
 		exit(0);
 	}
-	else if (key == 7 || key == 16 || key == 6)
+	else if (key == 7)
 	{
-		ft_putstr("\nkey = ");
-		ft_putnbr(key);
-		if (!map->axe_key)
-			map->axe_key = key;
-		else
-			map->axe_key = 0;
+		ft_putstr("\nRotation towards X");
+		map->angle_x = map->reverse == 1 ? map->angle_x - 5 * 0.0174 : map->angle_x + 5 * 0.0174;
+		mlx_clear_window(map->mlx_ptr, map->win_ptr);
+		fdf_draw(map);
 	}
+	else if (key == 16)
+	{
+		ft_putstr("\nRotation towards Y");
+		map->angle_y = map->reverse == 1 ? map->angle_y - (5 * 0.0174) : map->angle_y + 5 * 0.0174;
+		mlx_clear_window(map->mlx_ptr, map->win_ptr);
+		fdf_draw(map);
+	}
+	else if (key == 6)
+	{
+		ft_putstr("\nRotation towards Z");
+		map->angle_z = map->reverse == 1 ? map->angle_z - (5 * 0.0174) : map->angle_z + 5 * 0.0174;
+		mlx_clear_window(map->mlx_ptr, map->win_ptr);
+		fdf_draw(map);
+	}
+	else if (key == 15)
+	{
+		if (!map->reverse)
+			map->reverse = 1;
+		else
+			map->reverse = 0;
+	}
+	else
+	{
+		ft_putstr("\nkey -> ");
+		ft_putnbr(key);
+	}	
 	return (0);
 }
 
@@ -29,7 +53,7 @@ int	fdf_mouse_hook(int button, int x, int y, t_map *map)
 
 int	fdf_motion_hook(int x, int y, t_map *map)
 {
-	if (map->button == 1)
+/*	if (map->button == 1)
 	{
 		ft_putstr("\nMotion hook");
 		if (map->axe_key == 7)
@@ -58,8 +82,8 @@ int	fdf_motion_hook(int x, int y, t_map *map)
 			fdf_draw(map);
 		}
 
-	}
-	else if (map->button == 2)
+	}*/
+	 if (map->button == 2)
 	{
 		map->step = map->last_y < y ? (map->step * 1.05) : (map->step / 1.05);
 		mlx_clear_window(map->mlx_ptr, map->win_ptr);

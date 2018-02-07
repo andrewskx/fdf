@@ -41,6 +41,7 @@ typedef struct		s_coord
 typedef	struct		s_map
 {
 	t_coord		**map;
+	t_vector	**vec_map;
 	void		*mlx_ptr;
 	void		*win_ptr;
 	int		axe_key;
@@ -51,11 +52,15 @@ typedef	struct		s_map
 	int		last_x;
 	int		last_y;
 	int		button;
+	int		reverse;
 	float		step;
 	float		angle_x;
 	float		angle_y;
 	float		angle_z;
 }			t_map;
+extern inline void	fdf_rotate_x(t_vector *vector, t_map *map);
+extern inline void 	fdf_rotate_y(t_vector *vector, t_map *map);
+extern inline void	fdf_rotate_z(t_vector *vector, t_map *map);
 int	fdf_motion_hook(int x, int y, t_map *map);
 int	fdf_button_release_hook(int button, int x, int y, t_map *map);
 int	fdf_mouse_hook(int button, int x, int y, t_map *map);
