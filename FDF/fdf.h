@@ -18,8 +18,17 @@
 # include <stdio.h>
 # include <pthread.h>
 # define rad 0.0174532
-# define width 1200
-# define height 800
+# define WIDTH 1200
+# define HEIGHT 800
+
+typedef struct		s_image
+{
+	void	*img_ptr;
+	char	*img_data;
+	int	bits_per_pixel;
+	int	size_line;
+	int	endian;
+}			t_image;
 
 typedef struct		s_vector
 {
@@ -29,6 +38,8 @@ typedef struct		s_vector
 	int y1;
 	int z0;
 	int z1;
+	int color0;
+	int color1;
 }			t_vector;
 
 typedef struct		s_coord
@@ -36,10 +47,12 @@ typedef struct		s_coord
 	int x;
 	int y;
 	int z;
+	int color;
 }			t_coord;
 
 typedef	struct		s_map
 {
+	t_image		image;
 	t_coord		**map;
 	t_vector	**vec_map;
 	void		*mlx_ptr;
@@ -61,6 +74,7 @@ typedef	struct		s_map
 extern inline void	fdf_rotate_x(t_vector *vector, t_map *map);
 extern inline void 	fdf_rotate_y(t_vector *vector, t_map *map);
 extern inline void	fdf_rotate_z(t_vector *vector, t_map *map);
+void	fdf_new_image(t_map *map);
 int	fdf_motion_hook(int x, int y, t_map *map);
 int	fdf_button_release_hook(int button, int x, int y, t_map *map);
 int	fdf_mouse_hook(int button, int x, int y, t_map *map);
@@ -78,6 +92,6 @@ void	fdf_validation_final_step(t_list *start, t_map *map);
 void	fdf_move_to_origin(t_map *map);
 void	fdf_fill_map(t_list *start, t_map *map, int rows, int columns);
 t_list	*fdf_validation_first_step(char *file, t_map *map);
-void	fdf_put_line(t_vector *vector, int color, t_map *map);
+void	fdf_put_line(t_vector *vector, t_map *map);
 void	fdf_draw(t_map *map);
 #endif

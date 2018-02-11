@@ -112,16 +112,12 @@ int	main(int arg, char **argv)
 		fdf_error("No arguments provided");
 	fdf_read_to_map(argv[1], &map);
 	map.mlx_ptr = mlx_init();
-	map.win_ptr = mlx_new_window(map.mlx_ptr, width, height, argv[1]);
+	map.win_ptr = mlx_new_window(map.mlx_ptr, WIDTH, HEIGHT, argv[1]);
 	fdf_draw(&map);
 	mlx_hook(map.win_ptr, 2, 0, fdf_key, &map);
-//	mlx_mouse_hook(map.win_ptr, mouse_hook, &map);
 	mlx_hook(map.win_ptr, 4, 0, fdf_mouse_hook, &map);
 	mlx_hook(map.win_ptr, 5, 0, fdf_button_release_hook, &map);
 	mlx_hook(map.win_ptr, 6, 0, fdf_motion_hook, &map);
-//	mlx_hook(map.win_ptr, 2, 0, fdf_key, &map);
-//	mlx_expose_hook(map.win_ptr, fdf_draw, &map);
-	//mlx_loop_hook(map.mlx_ptr, fdf_draw, &map);
 	mlx_loop(map.mlx_ptr);
 	return (0);
 }

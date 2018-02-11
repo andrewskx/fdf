@@ -12,23 +12,6 @@
 
 #include "fdf.h"
 
-
-/*void	print_list(t_list *start)
-{
-	t_list *ptr;
-
-	ptr = start;
-	if (ptr)
-		while (ptr)
-		{
-			write(1, "|", 1);
-			ft_putstr((char*)(ptr->content));
-			write(1, "|", 1);
-			ptr = ptr->next;
-			write(1, "\n", 1);
-		}
-}*/
-
 void		fdf_validate_line(t_list *start, char *str)
 {
 	int i;
@@ -87,7 +70,7 @@ void	fdf_fill_map(t_list *start, t_map *map, int rows, int columns)
 		{
 			map->map[rows][columns].x = columns;
 			map->map[rows][columns].y = rows;
-			map->map[rows][columns].z = -(ft_atoi(str[columns]));
+			map->map[rows][columns].z = ft_atoi(str[columns]);
 			columns++;
 		}
 		rows--;
@@ -118,26 +101,6 @@ void	fdf_validation_final_step(t_list *start, t_map *map)
 	map->columns = (int)start->content_size;
 }
 
-void	print_coords(t_map *map)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (i < map->rows)
-	{
-		j = 0;
-		while (j < map->columns)
-		{
-			printf("%i ",map->map[i][j].z);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
-}
-
-
 void	fdf_read_to_map(char *file, t_map *map)
 {
 	t_list *start;
@@ -146,9 +109,6 @@ void	fdf_read_to_map(char *file, t_map *map)
 	fdf_validation_final_step(start, map);
 	fdf_map_allocate(map);
 	fdf_fill_map(start, map, map->rows - 1, 0);
-//	print_coords(map);
-//	print_list(start);
 	ft_lstdel(&start, ft_del_lst);
 	fdf_move_to_origin(map);
-//	print_coords(map);
 }
