@@ -20,24 +20,24 @@ void	fdf_draw(t_map *map)
 		j = 0;
 		while (j < map->columns - 1)
 		{
-				vector.x0 = map->map[i][j].x * map->step;
+			/*	vector.x0 = map->map[i][j].x * map->step;
 				vector.y0 = map->map[i][j].y * map->step;
 				vector.z0 = map->map[i][j].z * map->step;
 				vector.color0 = map->map[i][j].color;
 				vector.x1 = map->map[i][j + 1].x * map->step;
 				vector.y1 = map->map[i][j + 1].y * map->step;
 				vector.z1 = map->map[i][j + 1].z * map->step;
-				vector.color1 = map->map[i][j + 1].color;
-				fdf_rotate(&vector, map);
+				vector.color1 = map->map[i][j + 1].color; */
+				fdf_rotate(&vector, &map->map[i][j], &map->map[i][j + 1], map);
 				fdf_put_line(&vector, map);
-				vector.x0 = map->map[i][j].x * map->step;
+			/*	vector.x0 = map->map[i][j].x * map->step;
 				vector.y0 = map->map[i][j].y * map->step;
 				vector.z0 = map->map[i][j].z * map->step;
 				vector.color1 = map->map[i + 1][j].color;
 				vector.x1 = map->map[i + 1][j].x * map->step;
 				vector.y1 = map->map[i + 1][j].y * map->step;
-				vector.z1 = map->map[i + 1][j].z * map->step;
-				fdf_rotate(&vector, map);
+				vector.z1 = map->map[i + 1][j].z * map->step; */
+				fdf_rotate(&vector, &map->map[i + 1][j], &map->map[i][j], map);
 				fdf_put_line(&vector, map);
 			j++;
 		}

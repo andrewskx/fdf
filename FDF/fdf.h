@@ -6,7 +6,7 @@
 /*   By: anboscan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 15:41:43 by anboscan          #+#    #+#             */
-/*   Updated: 2018/02/03 16:33:29 by anboscan         ###   ########.fr       */
+/*   Updated: 2018/02/12 13:46:09 by anboscan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,16 @@ typedef	struct		s_map
 	float		angle_y;
 	float		angle_z;
 }			t_map;
-extern inline void	fdf_rotate_x(t_vector *vector, t_map *map);
-extern inline void 	fdf_rotate_y(t_vector *vector, t_map *map);
-extern inline void	fdf_rotate_z(t_vector *vector, t_map *map);
+extern inline void	fdf_rotate_x(t_vector *vector, t_coord *p1, t_coord *p2, t_map *map);
+extern inline void 	fdf_rotate_y(t_vector *vector, t_coord *p1, t_coord *p2, t_map *map);
+extern inline void	fdf_rotate_z(t_vector *vector, t_coord *p1, t_coord *p2, t_map *map);
 void	fdf_new_image(t_map *map);
 int	fdf_motion_hook(int x, int y, t_map *map);
 int	fdf_button_release_hook(int button, int x, int y, t_map *map);
 int	fdf_mouse_hook(int button, int x, int y, t_map *map);
 int	fdf_key(int key, t_map *map);
 void	fdf_scale(t_vector *vector, t_map *map);
-void	fdf_rotate(t_vector *vector, t_map *map);
+void	fdf_rotate(t_vector *vector, t_coord *p1, t_coord *p2, t_map *map);
 void	ft_free_double_char(char **str);
 void	ft_del_lst(void *content, size_t content_size);
 void	fdf_error(char const *str);
